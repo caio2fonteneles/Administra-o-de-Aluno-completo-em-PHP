@@ -1,0 +1,70 @@
+<?php
+
+$matricula = $_POST["matricula"];
+
+$nome = "";
+$email = "";
+
+if (file_exists("alunos.txt")) {
+
+    $arqAluno = fopen("alunos.txt", "r");
+
+    while (!feof($arqAluno)) {
+
+        $linha = fgets($arqAluno);
+
+        if ($linha != false) {
+
+            $dados = explode(";", trim($linha));
+
+            if ($dados[0] == $matricula) {
+
+                $nome = $dados[1];
+                $email = $dados[2];
+
+            }
+        }
+    }
+
+    fclose($arqAluno);
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+
+<h1>Excluir Aluno</h1>
+
+<p>Confira os dados do aluno:</p>
+
+<p>
+    Matrícula: <?php echo $matricula; ?>
+</p>
+
+<p>
+    Nome: <?php echo $nome; ?>
+</p>
+
+<p>
+    Email: <?php echo $email; ?>
+</p>
+
+<form action="excluirAluno.php" method="POST">
+
+    <input type="hidden" name="matricula" value="<?php echo $matricula; ?>">
+
+    <input type="submit" value="Confirmar Exclusão">
+
+</form>
+
+<br>
+
+<a href="listarAlunos.php">Cancelar</a>
+
+</body>
+</html>
