@@ -1,0 +1,65 @@
+<?php
+
+$matricula = $_POST["matricula"];
+
+$nome = "";
+$email = "";
+
+if (file_exists("alunos.txt")) {
+
+    $arqAluno = fopen("alunos.txt", "r");
+
+    while (!feof($arqAluno)) {
+
+        $linha = fgets($arqAluno);
+
+        if ($linha != false) {
+
+            $dados = explode(";", trim($linha));
+
+            if ($dados[0] == $matricula) {
+
+                $nome = $dados[1];
+                $email = $dados[2];
+
+            }
+        }
+    }
+
+    fclose($arqAluno);
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+
+<h1>Alterar Aluno</h1>
+
+<form action="alterarAluno.php" method="POST">
+
+    Matrícula:
+    <input type="text" name="matricula" value="<?php echo $matricula; ?>" readonly>
+
+    <br><br>
+
+    Nome:
+    <input type="text" name="nome" value="<?php echo $nome; ?>">
+
+    <br><br>
+
+    Email:
+    <input type="text" name="email" value="<?php echo $email; ?>">
+
+    <br><br>
+
+    <input type="submit" value="Alterar Aluno">
+
+</form>
+
+</body>
+</html>
